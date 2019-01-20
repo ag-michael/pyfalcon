@@ -1,0 +1,9 @@
+{
+	"client_name":"<your client name>",
+	"falcon_hose_domain":"firehose.crowdstrike.com",
+	"falcon_data_feed_url":"https://firehose.crowdstrike.com/sensors/entities/datafeed/v1?appId=",
+	"falcon_api_id":"<apiid>",
+	"falcon_api_key":"<apikey>"
+
+
+}
