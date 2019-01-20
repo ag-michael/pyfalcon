@@ -30,7 +30,7 @@ class StreamProcessor(threading.Thread):
 				continue
 
 class FalconStreamingAPI:
-	def __init__(self,config):
+	def __init__(self,config,processor):
 		self.config=config
 		self.key=config["falcon_api_key"]
 		self._id = config["falcon_api_id"]
@@ -43,6 +43,7 @@ class FalconStreamingAPI:
 		self.RequestUri_Query='?appId='+config["client_name"]
 		self.Headers={}
 		self.processor=processor
+
 	def calculateHMAC(self,_key,_requestString):
 		digest=hmac.new(str(_key),msg=str(_requestString),digestmod=hashlib.sha256).digest()
 		return base64.b64encode(digest)
@@ -66,6 +67,7 @@ class FalconStreamingAPI:
 			rs+="Host: "+self.config["falcon_hose_domain"]+"\n"
 			rs+="Connection: Keep-Alive\r\n\r\n"
 			rs=rs.encode('utf-8')
+
 			c.sendall(rs)
 			data = c.recv(10000)
 			body=data.split('\r\n\r\n')[1]
@@ -86,7 +88,6 @@ class FalconStreamingAPI:
 
 def processor(stream_data):
 	print(stream_data)
-
 def main():
 	config={}
 	with open(sys.argv[1]) as f:
